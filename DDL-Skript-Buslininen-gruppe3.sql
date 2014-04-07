@@ -63,14 +63,13 @@ CREATE TABLE IF NOT EXISTS dienstzeiten (
 CREATE TABLE IF NOT EXISTS linienfahrplan (
   linienfahrplan_id INT NOT NULL AUTO_INCREMENT,
   rückfahrtzeit TIME,
-  buslinie_id INT,
   betriebszeiten INT,
   buslinie_id INT,
   tage_id INT,
   einsetzfahrt TIME,
   aussetzfahrt TIME,
-  intervalle_id INTm
-  PRIMARY KEY (fahrt_id),
+  intervalle_id INT,
+  PRIMARY KEY (linienfahrplan_id),
   INDEX fk_linienfahrplan_buslinie (buslinie_id ASC),
   INDEX fk_linienfahrplan_betriebszeiten (betriebszeiten ASC),
   INDEX fk_lininefahrplan_tage (tage_id ASC),
@@ -78,8 +77,8 @@ CREATE TABLE IF NOT EXISTS linienfahrplan (
   CONSTRAINT fk_linienfahrplan_betrienszeiten
     FOREIGN KEY (betriebszeiten)
 	REFERENCES betriebszeiten (betriebszeiten_id)
-	ON DELETE CASCADE
-	ON UPDATE CASCADE,
+	ON UPDATE CASCADE
+	ON DELETE CASCADE,
   CONSTRAINT fk_linienfahrplan_buslinie
     FOREIGN KEY (buslinie_id)
 	REFERENCES buslinie (buslinie_id)
@@ -91,7 +90,7 @@ CREATE TABLE IF NOT EXISTS linienfahrplan (
 	ON DELETE CASCADE
 	ON UPDATE CASCADE,
   CONSTRAINT fk_linienfahrplan_intervalle
-    FOREIGN KEY intervalle_id
+    FOREIGN KEY (intervalle_id)
 	  REFERENCES intervalle (intervalle_id)
 	  ON DELETE CASCADE
 	  ON UPDATE CASCADE
@@ -139,12 +138,12 @@ CREATE TABLE IF NOT EXISTS fahrer_dienstzeiten (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 ) ENGINE = InnoDB;
-CREATE TABLE IF NOT EXISTS liniefahrplan_haltestelle (
+CREATE TABLE IF NOT EXISTS linienfahrplan_haltestelle (
   linienfahrplan_id INT,
   haltestelle_id INT,
   haltestellennummer INT,
   fahrzeit TIME,
-  PRIMARY KEY (lininenfahrplan_id, haltestelle_id),
+  PRIMARY KEY (linienfahrplan_id, haltestelle_id),
   INDEX fk_linienfahrplan_haltestelle_haltestelle (haltestelle_id ASC),
   INDEX fk_linienfahrplan_haltestelle_buslinie (linienfahrplan_id ASC),
   CONSTRAINT fk_linienfahrplan_haltestelle_haltestelle
